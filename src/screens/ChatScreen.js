@@ -36,11 +36,26 @@ const ChatScreen = () => {
         }
     }
 
+    const getMyRoom = async () => {
+        try {
+            const { userToken } = await getToken();
+            const resJson = await userService.findRoom(userToken);
+            if(resJson.data && resJson.data._id!=''){
+                socketChat(resJson.data._id, '');
+            }
+        } catch (error) {
+            console.log('error', error);
+            setData({
+                ...messages,
+                errorMessage: error.response.data.error || error.statusText
+            });
+        }
+    }
+
 
     useEffect(() => {
+        getMyRoom();
         getMyChats();
-
-
     }, []);
 
 
@@ -96,7 +111,7 @@ const ChatScreen = () => {
             var jsonData = await userService.saveMessage(token, {
                 message: message,
                 uid: room,
-                to: (toUser && toUser.length > 0)?toUser.userId : null
+                to: (toUser && toUser.length > 0)?toUser[0].userId : null
             }
             );
             return jsonData;

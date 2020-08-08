@@ -34,14 +34,26 @@ const App = ({ navigation }) => {
 
     bootstrapAsync();
   }, []);
+
+  const parseJwt= (token)=> {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+};
+
   const authContext = React.useMemo(
     () => ({
       signIn: async (data, navigation) => {
         try {
-          const resJson = await userService.login(data);      //resJson.accessToken    
+          const resJson = await userService.login(data);      //resJson.accessToken 
+          const userInfo=parseJwt(resJson.accessToken);   
           await AsyncStorage.setItem('userToken', resJson.accessToken);
-          await AsyncStorage.setItem('user', resJson.user);
-          await AsyncStorage.setItem('userId', resJson.userId);
+          await AsyncStorage.setItem('user', userInfo.username.name);
+          await AsyncStorage.setItem('userId', userInfo.username._id);
           dispatch({ type: 'SIGN_IN', token: resJson.accessToken });
         } catch (e) {
           console.log('@@@@@@@@@@', e);

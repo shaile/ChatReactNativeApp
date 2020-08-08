@@ -36,6 +36,11 @@ const userService = {
         const visurl = `${buildURL(Urls.History, null, null)}`;
         return await axios.get(visurl, header);
     },
+    findRoom: async (token) => {
+        const header = await headers(token);
+        const url = `${buildURL(Urls.FindRoom, null, null)}`;
+        return await axios.get(url, header);
+    },
 }
 
 

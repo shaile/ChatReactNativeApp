@@ -7,10 +7,11 @@ export const Urls = {
     Login:'/auth/login',
     SignUp:'/auth/create',
     SaveChat:'/chat',
-    MyChat:'/chat/user/me'
+    MyChat:'/chat/user/me',
+    FindRoom:'/chat/user/find/room'
 }
 export const buildURL = (url, queryParam, paramReplacements) => {
-    const API_URL = 'https://callcenterchatapi.herokuapp.com';//process.env.REACT_APP_API_URL;
+    const API_URL = 'http://localhost:3008';//process.env.REACT_APP_API_URL;
   
     if (queryParam) {
       url = addQueryParameters(url, queryParam);
