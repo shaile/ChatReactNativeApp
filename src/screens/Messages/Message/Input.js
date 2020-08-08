@@ -24,13 +24,14 @@ const styles = StyleSheet.create({
     // borderTop: '2px solid #D3D3D3'
   },
   input: {
-    borderWidth: 0,
+    borderWidth: 1,
     borderRadius: 0,
+    borderColor: 'gray',
     paddingLeft: 5,
     paddingRight: 5,
     paddingLeft: 5,
     paddingBottom: 5, 
-    width: 80,
+    height: 40,
     fontSize: 16,
   },
   sendButton: {
