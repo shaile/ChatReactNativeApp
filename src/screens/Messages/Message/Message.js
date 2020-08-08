@@ -1,47 +1,34 @@
 import * as React from 'react';
 import Emoji from 'react-native-emoji';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import { Card, ListItem, Button, Icon } from 'react-native-elements'
 
-const Message = ({ message: { text, from }, name }) => {
+const Message = ({ message: { text, user }, name }) => {
   let isSentByCurrentUser = false;
 
   const trimmedName = name.trim().toLowerCase();
-
-  if (from === trimmedName) {
+  if (user === trimmedName) {
     isSentByCurrentUser = true;
   }
 
-  // return (
-  //   isSentByCurrentUser
-  //     ? (
-  //       <View style={[styles.messageContainer, styles.justifyEnd]}>
-  //         <Text style={[styles.sentText, styles.pr10]}>{trimmedName}</Text>
-  //         <View style={[styles.messageBox, styles.backgroundColorBlue]}>
-  //           <Text style={[styles.messageText, styles.colorWhite]}>{text}</Text>
-  //         </View>
-  //       </View>
-  //     )
-  //     : (
-  //       <View style={[styles.messageContainer, styles.justifyStart]}>
-  //         <View style={[styles.messageBox, styles.backgroundColorLight]}>
-  //           <Text style={[styles.messageText, styles.colorDark]}>{text}</Text>
-  //         </View>
-  //         <Text style={[styles.sentText, styles.pl10]}>{name}</Text>
-  //       </View>
-  //     )
-  // );
-
   return (
-    <Card containerStyle={{ padding: 0 }}>
-      <View style={[styles.messageContainer, styles.justifyStart]}>
-        <View style={[styles.messageBox, styles.backgroundColorLight]}>
-          <Text style={[styles.messageText, styles.colorDark]}>{text}</Text>
+    isSentByCurrentUser
+      ? (
+        <View style={[styles.messageContainer, styles.justifyEnd]}>
+          <Text style={[styles.sentText, styles.pr10]}>{trimmedName}</Text>
+          <View style={[styles.messageBox, styles.backgroundColorBlue]}>
+            <Text style={[styles.messageText, styles.colorWhite]}>{text}</Text>
+          </View>
         </View>
-        <Text style={[styles.sentText, styles.pl10]}>{name}</Text>
-      </View>
-    </Card>
-  )
+      )
+      : (
+        <View style={[styles.messageContainer, styles.justifyStart]}>
+          <View style={[styles.messageBox, styles.backgroundColorLight]}>
+            <Text style={[styles.messageText, styles.colorDark]}>{text}</Text>
+          </View>
+          <Text style={[styles.sentText, styles.pl10]}>{user}</Text>
+        </View>
+      )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -52,31 +39,34 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     paddingLeft: 20,
     paddingRight: 20,
-    // color: 'white',
-    // display: 'inline-block',
-    // maxWidth: '80%',
+    color: '#ffffff',
+    display: 'flex'
   },
   messageText: {
+    width:'100%',
     letterSpacing: 0,
-    textAlign: 'left',
-    fontSize: 16
+    alignItems: 'flex-start',
+    fontSize: 10,
+    flexWrap:'wrap'
   },
   messageTextImg: {
     letterSpacing: 0,
     textAlign: 'left',
-    fontSize: 16,
+    fontSize: 5,
     textAlignVertical: 'center'
   },
   messageContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    // height: '500px'
+    display: 'flex',
+    justifyContent: 'flex-end',
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 5,
+    paddingRight: 5,
+    marginTop:3
   },
   sentText: {
     display: 'flex',
     alignItems: 'center',
-    // fontFamily: 'Helvetica',
     color: '#828282',
     letterSpacing: 0.3
   },
@@ -87,14 +77,10 @@ const styles = StyleSheet.create({
     paddingLeft: 10
   },
   justifyStart: {
-    justifyContent: 'flex-start'
+    alignSelf: 'flex-start'
   },
-  justifyEnd: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 8,
+  justifyEnd: { 
+    alignSelf: 'flex-end' 
   },
   colorWhite: {
     color: '#f0f8ff'

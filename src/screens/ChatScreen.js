@@ -26,6 +26,7 @@ const ChatScreen = () => {
             const { userToken } = await getToken();
             const resJson = await userService.myChat(userToken);
             // setMessages(messages => [...messages, message]);
+            console.log('############', resJson.data);
             setMessages(resJson.data);
         } catch (error) {
             console.log('error', error);
@@ -91,7 +92,8 @@ const ChatScreen = () => {
         const { userId } = await getToken();
         const toUser = users.filter(user => {
             return (userId != user.userId);
-        })
+        });
+        console.log('@@@@@@', toUser)
         try {
             var jsonData = await userService.saveMessage(token, {
                 message: message,
@@ -111,9 +113,8 @@ const ChatScreen = () => {
     return (
         <View style={styles.outerContainer}>
             <View style={styles.container}>
-                <Text>CHAT WINDOW</Text>
                 {/* <InfoBar room={room} /> */}
-                <Messages messages={messages} name={'Usha'} room={room} />
+                <Messages messages={messages} name={'usha'} room={room} />
                 <Input message={message} room={room} setMessage={setMessage} sendMessage={sendMessage} />
             </View>
             {/* <TextContainer users={users}/> */}
